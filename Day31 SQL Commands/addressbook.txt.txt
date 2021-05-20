@@ -1,1 +1,158 @@
                              
+DAY31 ASSIGNMENTS
+
+UC1.Ability to create a AddressBook DB
+
+CREATE DATABASE addressbook;     # to create new data base
+SHOW DATABASES;			 # to see all the available data bases
+USE addressbook;	         # for using perticular data base
+
+UC2.Ability to create a AddressBook Table with first and last names, address, city,state, zip, phone number
+and email as its attributes
+
+create table address_book (
+first_name varchar(100) NOT NULL, 
+last_name varchar(100) NOT NULL, 
+address varchar(100) NOT NULL, 
+city varchar(100) NOT NULL, 
+state varchar(100) NOT NULL, 
+zip int UNSIGNED NOT NULL, 
+phonenumber BIGINT NOT NULL, 
+email varchar(300)
+);
+
+UC3.Ability to insert new Contacts to AddressBook
+
+insert into address_book(
+first_name ,last_name , address, city, state, zip,phonenumber,email) 
+values('Vinayak','Naik','Honavar','Banglore','Karnataka',581334,9591626394,'vinayaknaik4196@gmail.com');
+
+select * from address_book;
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+
+| first_name | last_name | type    | address | city     | state     | zip    | phonenumber | email                     |
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+
+| Vinayak    | Naik      | family  | Honavar | Banglore | Karnataka | 581334 |  9591626394  vinayaknaik4196@gmail.com |
+| Vishakh    | Naik      | friends | Honavar | Banglore | Karnataka | 581334 |  9988998888 | vishaknaik4196@gmail.com  |
+| Vijay      | Pai       | family  | Kumta   | Chennai  | Tamilnadu | 500100 |  9977777888 | vijaypai4196@gmail.com    |
+| Amogh      | Bhat      | manager | Bhatkal | Banglore | Karnataka | 581334 |  7645342312 | amogh123@gmail.com        |
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+
+
+UC4.Ability to edit existing contact person using their name.
+
+UPDATE address_book set phonenumber = 2222222222 where first_name = 'Vinayak' AND last_name = 'Naik';
+
+select * from address_book;
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+
+| first_name | last_name | type    | address | city     | state     | zip    | phonenumber | email                     |
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+
+| Vinayak    | Naik      | family  | Honavar | Banglore | Karnataka | 581334 |  2222222222   vinayaknaik4196@gmail.com |
+| Vishakh    | Naik      | friends | Honavar | Banglore | Karnataka | 581334 |  9988998888 | vishaknaik4196@gmail.com  |
+| Vijay      | Pai       | family  | Kumta   | Chennai  | Tamilnadu | 500100 |  9977777888 | vijaypai4196@gmail.com    |
+| Amogh      | Bhat      | manager | Bhatkal | Banglore | Karnataka | 581334 |  7645342312 | amogh123@gmail.com        |
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+
+
+UC5.Ability to delete a person using person's name
+
+DELETE from address_book where first_name = 'Vinayak' AND last_name = 'Naik';
+
+UC6.Ability to Retrieve Person belonging to a City or State from the Address Book
+
+select * from address_book where city = 'Banglore' AND state = 'Karnataka';
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+-----------------+-----------------+
+| first_name | last_name | type    | address | city     | state     | zip    | phonenumber | email                     | addressBookType | addressBookName |
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+-----------------+-----------------+
+| Vinayak    | Naik      | family  | Honavar | Banglore | Karnataka | 581334 |  9591626394 | vinayaknaik4196@gmail.com | FRIENDS         | AddressBook 1   |
+| Vishakh    | Naik      | friends | Honavar | Banglore | Karnataka | 581334 |  9988998888 | vishaknaik4196@gmail.com  | Family          | AddressBook2    |
+| Amogh      | Bhat      | manager | Bhatkal | Banglore | Karnataka | 581334 |  7645342312 | amogh123@gmail.com        | NULL            | NULL            |
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+-----------------+-----------------+
+
+UC7.Ability to understand the size of address book by City and State
+
+ select count(*) from address_book where city = 'Banglore' AND state = 'Karnataka' ;
+ 
+ +----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+ 
+ #UC9
+
+ALTER TABLE address_Book ADD addressBookName VARCHAR(100) AFTER email;
+ALTER TABLE address_Book ADD addressBookType VARCHAR(100) AFTER addressBookName;
+UPDATE address_Book SET addressBookName = 'AddressBook 1' WHERE firstName = 'Vinayak';
+UPDATE address_Book SET addressBookType = 'FRIENDS' WHERE first_Name = 'Vinayak';
+UPDATE address_Book SET addressBookName = 'AddressBook2' WHERE first_Name = 'Vishakh';
+UPDATE address_Book SET addressBookType = 'Family' WHERE first_Name = 'Vishakh';
+
+#usecase10
+
+mysql> SELECT addressBookType, count(*) FROM addressBook GROUP BY addressBookType;
++-----------------+----------+
+| addressBookType | count(*) |
++-----------------+----------+
+| NULL            |        2 |
+| FAMILY          |        1 |
+| FRIENDS         |        1 |
++-----------------+----------+
+
+ Insert into address_book values('Mahi','Shetty'Family','Kagal','Bijapura','Karnataka',12543,9874327392,'Mahesh123@gmail.com','FRIENDS','AddressBook3');
+
+CREATE TABLE users
+     (
+     user_id INT NOT NULL,
+     firstName VARCHAR(100) NOT NULL,
+     lastName VARCHAR(100) NOT NULL,
+     PRIMARY KEY (user_id)
+     );
+
+CREATE TABLE location
+    (
+     user_id INT NOT NULL,
+     address VARCHAR(100) NOT NULL,
+     city VARCHAR(100) NOT NULL,
+     state VARCHAR(100) NOT NULL,
+     zipCode INT NOT NULL,
+     PRIMARY KEY (user_id) ,
+     FOREIGN KEY (user_id) REFERENCES users(user_id)
+     );
+
+CREATE TABLE Contact
+     (
+     user_id INT,
+     phoneNumber BIGINT,
+     email VARCHAR(100),
+     FOREIGN KEY(user_id) REFERENCES users(user_id)
+     );
+
+CREATE TABLE ContactType
+     (
+     type_id INT,
+     type_contact VARCHAR(100),
+     PRIMARY KEY (type_id)
+     );
+
+CREATE TABLE user_ContactTypeLink
+    (
+     user_id INT,
+     type_id INT,
+     FOREIGN KEY(user_id) REFERENCES users(user_id),
+     FOREIGN KEY(type_id) REFERENCES ContactType(type_id)     );
+
+INSERT INTO users VALUES(1, 'Vikki,'Naik'),(2, 'Krishna', 'Bhat'),(3, 'ravi', 'hegde');
+
+INSERT INTO location VALUES  (1, 'Vinayak', 'Naik', 'Banglore', '78261'), (2, 'Vishakh', 'Iyer', 'Naik', '56546'), (3, 'Vijay', 'Bhat', 'Pune', '8969');
+
+INSERT INTO Contact VALUES
+     (1,'9875643545','Abc@gmail.com'),
+     (2,'8097625187','XYZ@gmail.com'),
+     (3,'9564323456','MNO@gmail.com');
+
+INSERT INTO ContactType VALUES
+     (111,'FRIENDS'),
+     (222,'FAMILY');
+
+INSERT INTO user_contacttypelink VALUES
+    (1,10),
+     (2,100),
+    (3,101);
