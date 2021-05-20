@@ -57,10 +57,23 @@ DELETE from address_book where first_name = 'Vinayak' AND last_name = 'Naik';
 UC6.Ability to Retrieve Person belonging to a City or State from the Address Book
 
 select * from address_book where city = 'Banglore' AND state = 'Karnataka';
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+-----------------+-----------------+
+| first_name | last_name | type    | address | city     | state     | zip    | phonenumber | email                     | addressBookType | addressBookName |
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+-----------------+-----------------+
+| Vinayak    | Naik      | family  | Honavar | Banglore | Karnataka | 581334 |  9591626394 | vinayaknaik4196@gmail.com | FRIENDS         | AddressBook 1   |
+| Vishakh    | Naik      | friends | Honavar | Banglore | Karnataka | 581334 |  9988998888 | vishaknaik4196@gmail.com  | Family          | AddressBook2    |
+| Amogh      | Bhat      | manager | Bhatkal | Banglore | Karnataka | 581334 |  7645342312 | amogh123@gmail.com        | NULL            | NULL            |
++------------+-----------+---------+---------+----------+-----------+--------+-------------+---------------------------+-----------------+-----------------+
 
 UC7.Ability to understand the size of address book by City and State
 
  select count(*) from address_book where city = 'Banglore' AND state = 'Karnataka' ;
+ 
+ +----------+
+| count(*) |
++----------+
+|        3 |
++----------+
  
  #UC9
 
